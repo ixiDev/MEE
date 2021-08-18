@@ -27,30 +27,23 @@ class Evaluator(private val parser: Parser) {
         val stack = Stack<Token>()
         while (tokens.isNotEmpty()) {
             val token = tokens.poll()
-            when (token.type) {
+            when (token) {
                 is NumberType -> {
                     stack.push(token)
                 }
                 is Operation -> {
-                    val first = stack.pop() ?: Token(
-                        NumberType.IntType, "0"
-                    )
-                    var second = Token(
-                        NumberType.IntType, "0"
-                    )
+                    val first: Token = stack.pop() ?: NumberType.IntType("0")
+                    var second: Token = NumberType.IntType("0")
                     if (stack.isNotEmpty())
                         second = stack.pop()
-                    val result = token.type.evaluate(first, second)
+                    val result = token.evaluate(first, second)
                     stack.add(result)
                 }
                 is FunctionType -> {
-                    if (token.type is FunctionType.LogFunction) {
+                    if (token is FunctionType.LogFunction) {
                         val result = ln(stack.pop().value.toDouble())
                         stack.push(
-                            Token(
-                                NumberType.FloatType,
-                                "$result"
-                            )
+                            NumberType.FloatType("$result")
                         )
                     }
                 }

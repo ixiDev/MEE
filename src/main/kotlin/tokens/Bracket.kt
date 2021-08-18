@@ -9,7 +9,7 @@ import java.util.*
  ** Email :  abdelmajid.idali@gmail.com
  **/
 
-sealed class Bracket(name: String) : TokenType(name) {
+sealed class Bracket(bracket: String) : Token(bracket) {
     object LBracket : Bracket("(") {
         override fun validate(token: Token, queue: Queue<Token>, stack: Stack<Token>) {
             stack.push(token)
@@ -20,12 +20,12 @@ sealed class Bracket(name: String) : TokenType(name) {
         override fun validate(token: Token, queue: Queue<Token>, stack: Stack<Token>) {
             if (stack.isEmpty())
                 error("Brackets mismatch '${token.value}'")
-            while (stack.peek().type != LBracket) {
+            while (stack.peek() != LBracket) {
                 queue.add(stack.pop())
                 if (stack.isEmpty())
                     error("Brackets mismatch '${token.value}'")
             }
-            if (stack.peek().type != LBracket) {
+            if (stack.peek() != LBracket) {
                 error("Brackets mismatch '${token.value}'")
             }
             stack.pop() // remove the opened bracket

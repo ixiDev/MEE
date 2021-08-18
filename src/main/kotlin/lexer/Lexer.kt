@@ -13,8 +13,8 @@ import tokens.*
  ** Email :  abdelmajid.idali@gmail.com
  **/
 
-private  val TOKENS_REGEX:String
-    get()="""
+private val TOKENS_REGEX: String
+    get() = """
         ([()])|(\d+(\.\d+)?)|([+*×÷/-])|log
     """.trimIndent()
 
@@ -41,11 +41,11 @@ class Lexer(private val source: ISource) {
             .forEach {
                 val strToken = it.value
                 val token: Token = when {
-                    strToken.isInt() -> Token(NumberType.IntType, strToken)
-                    strToken.isFloat() -> Token(NumberType.FloatType, strToken)
-                    strToken.isOperation() -> Token(strToken.toOperation(), strToken)
-                    strToken.isBracket() -> Token(strToken.toBracket(), strToken)
-                    strToken.isMathFun() -> Token(strToken.toMathFun(), strToken)
+                    strToken.isInt() -> NumberType.IntType(strToken)
+                    strToken.isFloat() -> NumberType.FloatType(strToken)
+                    strToken.isOperation() -> strToken.toOperation()
+                    strToken.isBracket() -> strToken.toBracket()
+                    strToken.isMathFun() -> strToken.toMathFun()
                     else -> {
                         lexerError("keyword '$strToken' not allowed")
                     }
