@@ -22,7 +22,7 @@ sealed class Operation(value: String, priority: Int) : Token(value, priority) {
         }
     }
 
-    override fun validate(token: Token, queue: Queue<Token>, stack: Stack<Token>) {
+    override fun onParse(token: Token, queue: Queue<Token>, stack: Stack<Token>) {
 
         if (stack.isEmpty()) {
             stack.push(token)
@@ -49,6 +49,10 @@ sealed class Operation(value: String, priority: Int) : Token(value, priority) {
             }
         }
 
+    }
+
+    override fun onEvaluate(token: Token, queue: Queue<Token>, stack: Stack<Token>) {
+        TODO("Not yet implemented")
     }
 }
 

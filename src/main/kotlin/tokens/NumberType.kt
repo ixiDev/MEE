@@ -9,7 +9,11 @@ sealed class NumberType(
     data class FloatType(private val number: String) : NumberType(number)
     data class IntType(private val number: String) : NumberType(number)
 
-    override fun validate(token: Token, queue: Queue<Token>, stack: Stack<Token>) {
+    override fun onParse(token: Token, queue: Queue<Token>, stack: Stack<Token>) {
         queue.add(token)
+    }
+
+    override fun onEvaluate(token: Token, queue: Queue<Token>, stack: Stack<Token>) {
+        TODO("Not yet implemented")
     }
 }

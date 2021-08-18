@@ -26,8 +26,7 @@ class Evaluator(private val parser: Parser) {
         val tokens = parser.parseTokens()
         val stack = Stack<Token>()
         while (tokens.isNotEmpty()) {
-            val token = tokens.poll()
-            when (token) {
+            when (val token = tokens.poll()) {
                 is NumberType -> {
                     stack.push(token)
                 }
@@ -40,12 +39,7 @@ class Evaluator(private val parser: Parser) {
                     stack.add(result)
                 }
                 is FunctionType -> {
-                    if (token is FunctionType.LogFunction) {
-                        val result = ln(stack.pop().value.toDouble())
-                        stack.push(
-                            NumberType.FloatType("$result")
-                        )
-                    }
+                    token.onEvaluate(token, tokens, stack)
                 }
                 else -> {
                     error("Unexpected token at ${token.value}")

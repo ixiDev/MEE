@@ -20,7 +20,7 @@ class Parser(private val lexer: Lexer) {
         val queue: Queue<Token> = LinkedList()
         for (token in tokens) {
             try {
-                token.validate(
+                token.onParse(
                     token, queue, stack
                 )
             } catch (e: Exception) {
