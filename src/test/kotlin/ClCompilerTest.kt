@@ -16,7 +16,8 @@ class ClCompilerTest {
         TextSource("2+3*6-9/10÷999.33688") to 19.999099,
         TextSource("2 + (3 * 6) - ((9 / 10) / 999.33688)") to 19.999099,
         TextSource("6+7-8*2+962/7") to 134.42857,
-        TextSource("2+2") to 4.0
+        TextSource("2+2") to 4.0,
+        TextSource("7-6*8+ln(6+7*9)*5+log(9+7)") to -18.625347
     )
 
     @Before
