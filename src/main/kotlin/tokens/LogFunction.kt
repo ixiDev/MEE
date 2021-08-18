@@ -8,7 +8,7 @@ import java.util.*
  ** Email :  abdelmajid.idali@gmail.com
  **/
 
-sealed class FunctionType(name: String) : TokenType(name) {
+sealed class FunctionType(name: String) : Token(value = name) {
     object LogFunction : FunctionType("log") {
         override fun validate(token: Token, queue: Queue<Token>, stack: Stack<Token>) {
             queue.add(stack.pop())
