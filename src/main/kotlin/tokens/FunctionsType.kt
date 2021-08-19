@@ -1,6 +1,7 @@
 package tokens
 
 import java.util.*
+import kotlin.collections.ArrayList
 import kotlin.math.ln
 import kotlin.math.log10
 
@@ -10,41 +11,14 @@ import kotlin.math.log10
  ** Email :  abdelmajid.idali@gmail.com
  **/
 
-sealed class FunctionType(name: String) : Token(value = name) {
+sealed class FunctionType(name: String) : Token(value = name, priority = 6) {
 
     override fun onParse(token: Token, queue: Queue<Token>, stack: Stack<Token>) {
-        queue.add(token)
+        stack.push(token)
     }
 
     override fun onEvaluate(token: Token, queue: Queue<Token>, stack: Stack<Token>) {
-        if (queue.isNotEmpty() and (queue.peek() !is Operation)) {
-
-            stack.push(token) // so we're working on the function that is in the top
-
-            while (queue.isNotEmpty() && queue.peek() !is Operation) {
-                stack.push(queue.poll())
-            }
-            while (queue.isNotEmpty() && (queue.peek() is Operation)) {
-                val first: Token = stack.pop() ?: NumberType.IntType("0")
-                if (first is FunctionType)
-                    break
-                var second: Token = NumberType.IntType("0")
-                if (stack.isNotEmpty())
-                    second = stack.pop()
-
-                if (second is FunctionType) {
-                    stack.push(first)
-                    break
-                }
-                val result = (queue.poll() as Operation).evaluate(first, second)
-                stack.add(result)
-            }
-            if (stack.contains(token)) // we have calculated the expression inside the fun
-                stack.remove(token)
-            calculateFunction(stack)
-        } else {
-            calculateFunction(stack)
-        }
+        TODO("Not yet implemented")
     }
 
     abstract fun calculateFunction(stack: Stack<Token>)

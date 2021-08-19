@@ -1,8 +1,7 @@
 package lexer
 
 import isBracket
-import isFloat
-import isInt
+import isNumber
 import isOperation
 import source.ISource
 import tokens.*
@@ -41,8 +40,7 @@ class Lexer(private val source: ISource) {
             .forEach {
                 val strToken = it.value
                 val token: Token = when {
-                    strToken.isInt() -> NumberType.IntType(strToken)
-                    strToken.isFloat() -> NumberType.FloatType(strToken)
+                    strToken.isNumber() -> strToken.toNumberType()
                     strToken.isOperation() -> strToken.toOperation()
                     strToken.isBracket() -> strToken.toBracket()
                     strToken.isMathFun() -> strToken.toMathFun()

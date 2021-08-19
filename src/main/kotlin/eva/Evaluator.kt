@@ -1,11 +1,10 @@
 package eva
 
 import lexer.Lexer
-import tokens.*
 import parser.Parser
 import source.ISource
+import tokens.*
 import java.util.*
-import kotlin.math.ln
 
 /**
  ** Author : Abdelmajid ID ALI
@@ -21,7 +20,6 @@ class Evaluator(private val parser: Parser) {
         )
     )
 
-
     fun evaluateResult(): Double {
         val tokens = parser.parseTokens()
         val stack = Stack<Token>()
@@ -31,15 +29,15 @@ class Evaluator(private val parser: Parser) {
                     stack.push(token)
                 }
                 is Operation -> {
-                    val first: Token = stack.pop() ?: NumberType.IntType("0")
-                    var second: Token = NumberType.IntType("0")
-                    if (stack.isNotEmpty())
-                        second = stack.pop()
+                    if (stack.isEmpty())
+                        error("Operation $token not allowed in empty stack")
+                    val first: Token = stack.pop()
+                    val second: Token = stack.pop()
                     val result = token.evaluate(first, second)
-                    stack.add(result)
+                    stack.push(result)
                 }
                 is FunctionType -> {
-                    token.onEvaluate(token, tokens, stack)
+                    token.calculateFunction(stack)
                 }
                 else -> {
                     error("Unexpected token at ${token.value}")
