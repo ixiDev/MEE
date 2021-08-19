@@ -11,13 +11,17 @@ import java.util.*
 
 sealed class Bracket(bracket: String) : Token(bracket) {
     object LBracket : Bracket("(") {
-        override fun validate(token: Token, queue: Queue<Token>, stack: Stack<Token>) {
+        override fun onParse(token: Token, queue: Queue<Token>, stack: Stack<Token>) {
             stack.push(token)
+        }
+
+        override fun onEvaluate(token: Token, queue: Queue<Token>, stack: Stack<Token>) {
+            TODO("Not yet implemented")
         }
     }
 
     object RBracket : Bracket(")") {
-        override fun validate(token: Token, queue: Queue<Token>, stack: Stack<Token>) {
+        override fun onParse(token: Token, queue: Queue<Token>, stack: Stack<Token>) {
             if (stack.isEmpty())
                 error("Brackets mismatch '${token.value}'")
             while (stack.peek() != LBracket) {
@@ -29,6 +33,10 @@ sealed class Bracket(bracket: String) : Token(bracket) {
                 error("Brackets mismatch '${token.value}'")
             }
             stack.pop() // remove the opened bracket
+        }
+
+        override fun onEvaluate(token: Token, queue: Queue<Token>, stack: Stack<Token>) {
+            TODO("Not yet implemented")
         }
     }
 }

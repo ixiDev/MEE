@@ -1,3 +1,3 @@
 
-rootProject.name = "CLC"
+rootProject.name = "MEE"
 
