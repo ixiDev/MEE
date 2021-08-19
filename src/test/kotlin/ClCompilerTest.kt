@@ -21,7 +21,9 @@ class ClCompilerTest {
         TextSource("log(9+ln(6*8))+7") to 8.109619,
         TextSource("log(9+ln(6*8)+7)") to 1.298224,
         TextSource("7-6*8+ln(6+7*9)*5+log(9+7)") to -18.625347,
-        TextSource("7-6*8+ln(6+7*9)*5+log(9+7-ln(6+1))+6*7-88") to -64.681665
+        TextSource("7-6*8+ln(6+7*9)*5+log(9+7-ln(6+1))+6*7-88") to -64.681665,
+        TextSource("exp(ln(6))") to 6.0,
+        TextSource("6+6*exp(7-ln(6)+3*2)+log(7+exp(1*ln(6)))") to 442420.505952,
     )
 
     @Before

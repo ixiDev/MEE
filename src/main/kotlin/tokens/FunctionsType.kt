@@ -1,7 +1,7 @@
 package tokens
 
 import java.util.*
-import kotlin.collections.ArrayList
+import kotlin.math.exp
 import kotlin.math.ln
 import kotlin.math.log10
 
@@ -40,11 +40,20 @@ sealed class FunctionType(name: String) : Token(value = name, priority = 6) {
             )
         }
     }
+
+    object ExpFunction:FunctionType("exp"){
+        override fun calculateFunction(stack: Stack<Token>) {
+            val result = exp(stack.pop().value.toDouble())
+            stack.push(
+                NumberType.FloatType("$result")
+            )
+        }
+    }
 }
 
 fun String.isMathFun(): Boolean {
     return this.matches(
-        "(log)|(ln)".toRegex()
+        "(log)|(ln)|(exp)".toRegex()
     )
 }
 
@@ -52,6 +61,7 @@ fun String.toMathFun(): FunctionType {
     return when (this) {
         "log", "Log", "LOG" -> FunctionType.LogFunction
         "ln", "Ln", "LN" -> FunctionType.LnFunction
+        "exp", "Exp", "EXP" -> FunctionType.ExpFunction
         else -> error("Unsupported function '$this'")
     }
 }

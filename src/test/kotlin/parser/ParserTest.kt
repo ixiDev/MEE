@@ -21,6 +21,8 @@ class ParserTest {
         TextSource("8+1+2+3-3-7-8") to "81+2+3+3-7-8-",
         TextSource("7-6*8+ln(6+7*9)*5+log(9+7-ln(6+1))+6*7-88") to "768*-679*+ln5*+97+61+ln-log+67*+88-",
         TextSource("log(9+ln(6*8))+7") to "968*ln+log7+",
+        TextSource("7-6*8+ln(6+7*9)*5+log(9+7-ln(6+1))+6*7-88-exp(6)+5") to "768*-679*+ln5*+97+61+ln-log+67*+88-6exp-5+",
+        TextSource("exp(ln(6))") to "6lnexp",
     )
 
     @Test
