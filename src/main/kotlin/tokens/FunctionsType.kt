@@ -1,6 +1,7 @@
 package tokens
 
 import java.util.*
+import kotlin.math.cos
 import kotlin.math.exp
 import kotlin.math.ln
 import kotlin.math.log10
@@ -41,9 +42,18 @@ sealed class FunctionType(name: String) : Token(value = name, priority = 6) {
         }
     }
 
-    object ExpFunction:FunctionType("exp"){
+    object ExpFunction : FunctionType("exp") {
         override fun calculateFunction(stack: Stack<Token>) {
             val result = exp(stack.pop().value.toDouble())
+            stack.push(
+                NumberType.FloatType("$result")
+            )
+        }
+    }
+
+    object CosFunction : FunctionType("cos") {
+        override fun calculateFunction(stack: Stack<Token>) {
+            val result = cos(stack.pop().value.toDouble())
             stack.push(
                 NumberType.FloatType("$result")
             )
@@ -53,7 +63,7 @@ sealed class FunctionType(name: String) : Token(value = name, priority = 6) {
 
 fun String.isMathFun(): Boolean {
     return this.matches(
-        "(log)|(ln)|(exp)".toRegex()
+        "(log)|(ln)|(exp)|(cos)".toRegex()
     )
 }
 
@@ -62,6 +72,7 @@ fun String.toMathFun(): FunctionType {
         "log", "Log", "LOG" -> FunctionType.LogFunction
         "ln", "Ln", "LN" -> FunctionType.LnFunction
         "exp", "Exp", "EXP" -> FunctionType.ExpFunction
+        "cos", "Cos", "COS" -> FunctionType.CosFunction
         else -> error("Unsupported function '$this'")
     }
 }
