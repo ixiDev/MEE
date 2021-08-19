@@ -75,11 +75,22 @@ sealed class FunctionType(name: String) : Token(value = name, priority = 6) {
             )
         }
     }
+
+    object PowFunction : FunctionType("^") {
+        override fun calculateFunction(stack: Stack<Token>) {
+            val exponent = stack.pop().value.toDouble()
+            val base = stack.pop().value.toDouble()
+            val result = base.pow(exponent)
+            stack.push(
+                NumberType.FloatType("$result")
+            )
+        }
+    }
 }
 
 fun String.isMathFun(): Boolean {
     return this.matches(
-        "(log)|(ln)|(exp)|(cos)|(sin)|(sqrt)".toRegex()
+        "(log)|(ln)|(exp)|(cos)|(sin)|(sqrt)|(\\^)".toRegex()
     )
 }
 
@@ -91,6 +102,7 @@ fun String.toMathFun(): FunctionType {
         "cos", "Cos", "COS" -> FunctionType.CosFunction
         "sin", "Sin", "SIN" -> FunctionType.SinFunction
         "sqrt", "Sqrt", "SQRT" -> FunctionType.SqrtFunction
+        "^" -> FunctionType.PowFunction
         else -> error("Unsupported function '$this'")
     }
 }
