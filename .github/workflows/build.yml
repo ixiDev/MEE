@@ -1,0 +1,19 @@
+name: Build CI
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      
+      - name: Change gradlew permissions
+        run: chmod +x gradlew
+        
+      - name: Run Gradle build
+        run: ./gradlew build
