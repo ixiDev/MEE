@@ -1,5 +1,6 @@
 package tokens
 
+import java.lang.Math.pow
 import java.util.*
 import kotlin.math.*
 
@@ -56,9 +57,19 @@ sealed class FunctionType(name: String) : Token(value = name, priority = 6) {
             )
         }
     }
+
     object SinFunction : FunctionType("sin") {
         override fun calculateFunction(stack: Stack<Token>) {
             val result = sin(stack.pop().value.toDouble())
+            stack.push(
+                NumberType.FloatType("$result")
+            )
+        }
+    }
+
+    object SqrtFunction : FunctionType("sqrt") {
+        override fun calculateFunction(stack: Stack<Token>) {
+            val result = sqrt(stack.pop().value.toDouble())
             stack.push(
                 NumberType.FloatType("$result")
             )
@@ -68,7 +79,7 @@ sealed class FunctionType(name: String) : Token(value = name, priority = 6) {
 
 fun String.isMathFun(): Boolean {
     return this.matches(
-        "(log)|(ln)|(exp)|(cos)|(sin)".toRegex()
+        "(log)|(ln)|(exp)|(cos)|(sin)|(sqrt)".toRegex()
     )
 }
 
@@ -79,6 +90,7 @@ fun String.toMathFun(): FunctionType {
         "exp", "Exp", "EXP" -> FunctionType.ExpFunction
         "cos", "Cos", "COS" -> FunctionType.CosFunction
         "sin", "Sin", "SIN" -> FunctionType.SinFunction
+        "sqrt", "Sqrt", "SQRT" -> FunctionType.SqrtFunction
         else -> error("Unsupported function '$this'")
     }
 }
