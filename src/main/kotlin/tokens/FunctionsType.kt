@@ -1,10 +1,7 @@
 package tokens
 
 import java.util.*
-import kotlin.math.cos
-import kotlin.math.exp
-import kotlin.math.ln
-import kotlin.math.log10
+import kotlin.math.*
 
 /**
  ** Author : Abdelmajid ID ALI
@@ -59,11 +56,19 @@ sealed class FunctionType(name: String) : Token(value = name, priority = 6) {
             )
         }
     }
+    object SinFunction : FunctionType("sin") {
+        override fun calculateFunction(stack: Stack<Token>) {
+            val result = sin(stack.pop().value.toDouble())
+            stack.push(
+                NumberType.FloatType("$result")
+            )
+        }
+    }
 }
 
 fun String.isMathFun(): Boolean {
     return this.matches(
-        "(log)|(ln)|(exp)|(cos)".toRegex()
+        "(log)|(ln)|(exp)|(cos)|(sin)".toRegex()
     )
 }
 
@@ -73,6 +78,7 @@ fun String.toMathFun(): FunctionType {
         "ln", "Ln", "LN" -> FunctionType.LnFunction
         "exp", "Exp", "EXP" -> FunctionType.ExpFunction
         "cos", "Cos", "COS" -> FunctionType.CosFunction
+        "sin", "Sin", "SIN" -> FunctionType.SinFunction
         else -> error("Unsupported function '$this'")
     }
 }

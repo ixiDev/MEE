@@ -25,6 +25,7 @@ class ClCompilerTest {
         TextSource("exp(ln(6))") to 6.0,
         TextSource("6+6*exp(7-ln(6)+3*2)+log(7+exp(1*ln(6)))") to 442420.505952,
         TextSource("6+6*exp(7-ln(6)+3*2)+cos(7+exp(1*ln(6)))") to 442420.299456,
+        TextSource("6+6*exp(7-ln(6)+3*2)+sin(7+exp(1*ln(6)))") to 442419.812176,
     )
 
     @Before

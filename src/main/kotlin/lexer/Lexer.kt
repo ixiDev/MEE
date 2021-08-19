@@ -14,7 +14,7 @@ import tokens.*
 
 private val TOKENS_REGEX: String
     get() = """
-        ([()])|(\d+(\.\d+)?)|([+*×÷/-])|log|ln|exp|cos
+        ([()])|(\d+(\.\d+)?)|([+*×÷/-])|log|ln|exp|cos|sin
     """.trimIndent()
 
 class Lexer(private val source: ISource) {
