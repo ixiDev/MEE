@@ -11,31 +11,32 @@ import java.util.*
 
 sealed class Bracket(bracket: String) : Token(bracket) {
     object LBracket : Bracket("(") {
-        override fun onParse(token: Token, queue: Queue<Token>, stack: Stack<Token>) {
-            stack.push(token)
+        override fun onParse(tokens: Queue<Token>, queue: Queue<Token>, stack: Stack<Token>) {
+            stack.push(this)
         }
 
-        override fun onEvaluate(token: Token, queue: Queue<Token>, stack: Stack<Token>) {
+        override fun onEvaluate(tokens: Queue<Token>, queue: Queue<Token>, stack: Stack<Token>) {
             TODO("Not yet implemented")
         }
     }
 
     object RBracket : Bracket(")") {
-        override fun onParse(token: Token, queue: Queue<Token>, stack: Stack<Token>) {
+
+        override fun onParse(tokens: Queue<Token>, queue: Queue<Token>, stack: Stack<Token>) {
             if (stack.isEmpty())
-                error("Brackets mismatch '${token.value}'")
+                error("Brackets mismatch '${value}'")
             while (stack.peek() != LBracket) {
                 queue.add(stack.pop())
                 if (stack.isEmpty())
-                    error("Brackets mismatch '${token.value}'")
+                    error("Brackets mismatch '${value}'")
             }
             if (stack.peek() != LBracket) {
-                error("Brackets mismatch '${token.value}'")
+                error("Brackets mismatch '${value}'")
             }
             stack.pop() // remove the opened bracket
         }
 
-        override fun onEvaluate(token: Token, queue: Queue<Token>, stack: Stack<Token>) {
+        override fun onEvaluate(tokens: Queue<Token>, queue: Queue<Token>, stack: Stack<Token>) {
             TODO("Not yet implemented")
         }
     }

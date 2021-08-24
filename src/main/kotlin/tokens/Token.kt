@@ -8,7 +8,7 @@ import parser.IRule
  ** Email :  abdelmajid.idali@gmail.com
  **/
 sealed class Token(
-    val value: String,
+    var value: String,
     val priority: Int = 0
 ) : IRule
 

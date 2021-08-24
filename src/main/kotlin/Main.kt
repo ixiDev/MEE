@@ -5,11 +5,12 @@ import source.FileSource
 
 fun main(args: Array<String>) {
 
-    val source = FileSource("examples/simple.clc")
+    val source = FileSource("examples/example2.mee")
     if (!source.exists())
-        error("file 'examples/simple.clc' nor exist")
+        error("file 'examples/example2.mee' nor exist")
 
     val lexer = Lexer(source)
+
     val parser = Parser(lexer)
 
     val evaluator = Evaluator(parser)
