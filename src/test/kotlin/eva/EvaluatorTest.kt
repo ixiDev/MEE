@@ -16,6 +16,6 @@ class EvaluatorTest {
     fun evaluateResult() {
         val evaluator = Evaluator(TextSource("2+3*6-9/10÷999.33688"))
 
-        assertEquals(19.999099, evaluator.evaluateResult(), 0.0)
+        assertEquals(19.999099, evaluator.evaluateResult().getLastResultValue(), 0.0)
     }
 }

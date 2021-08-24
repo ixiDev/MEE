@@ -1,9 +1,8 @@
-import eva.Evaluator
 import lexer.Lexer
 import parser.Parser
 import source.FileSource
 
-fun main(args: Array<String>) {
+fun main() {
 
     val source = FileSource("examples/example2.mee")
     if (!source.exists())
@@ -13,9 +12,8 @@ fun main(args: Array<String>) {
 
     val parser = Parser(lexer)
 
-    val evaluator = Evaluator(parser)
     println(
-       "Infix : "+ lexer.readTokens().joinToString("") {
+        "Infix : " + lexer.readTokens().joinToString("") {
             it.value
         }
     )
@@ -24,7 +22,8 @@ fun main(args: Array<String>) {
             it.value
         }
     )
-    println("Result = ${evaluator.evaluateResult()}")
+    val compiler = ClCompiler()
+    println("Result = ${compiler.compile(source)}")
 
 
 }
