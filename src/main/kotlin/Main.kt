@@ -4,9 +4,10 @@ import source.FileSource
 
 fun main() {
 
-    val source = FileSource("examples/example2.mee")
+    val filePath="examples/example2.mee"
+    val source = FileSource(filePath)
     if (!source.exists())
-        error("file 'examples/example2.mee' nor exist")
+        error("file '$filePath' nor exist")
 
     val lexer = Lexer(source)
 
