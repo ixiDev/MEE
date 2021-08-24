@@ -27,6 +27,18 @@ class ClCompilerTest {
         TextSource("6+6*exp(7-ln(6)+3*2)+cos(7+exp(1*ln(6)))") to 442420.299456,
         TextSource("6+6*exp(7-ln(6)+3*2)+sin(7+exp(1*ln(6)))") to 442419.812176,
         TextSource("2^(2+6)*5+log(9+7-ln(6+1))") to 1281.147803,
+        TextSource(
+            "a=5+4+ln(9*5)+7;\n" +
+                    "b = 9*5;\n" +
+                    "c = b - a;\n" +
+                    "d = c-a;\n" +
+                    "d = 5;\n" +
+                    "a = 5+4;\n" +
+                    "a = 6;\n" +
+                    "b = a*2;\n" +
+                    "a = 8*b;\n" +
+                    "b=a;"
+        ) to 96.0,
     )
 
     @Before
