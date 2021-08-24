@@ -33,11 +33,24 @@ class Evaluator(private val parser: Parser) {
                         error("Operation $token not allowed in empty stack")
                     val first: Token = stack.pop()
                     val second: Token = stack.pop()
-                    val result = token.evaluate(first, second)
+                    val result =
+                        if (first is FunctionType.VariableFunction && second is FunctionType.VariableFunction)
+                            token.evaluate(second.token, first.token)
+                        else
+                            token.evaluate(first, second)
                     stack.push(result)
                 }
                 is FunctionType -> {
                     token.calculateFunction(stack)
+                }
+                is FunctionType.VariableReference -> {
+
+                    val refVar = stack.find {
+                        (it is FunctionType.VariableFunction) && it.name == token.ref
+                    } as FunctionType.VariableFunction
+                    // do nothing
+                    stack.push(refVar.token)
+                    println("$${token.ref}= ${refVar.token.value}")
                 }
                 else -> {
                     error("Unexpected token at ${token.value}")
@@ -47,8 +60,11 @@ class Evaluator(private val parser: Parser) {
 
         if (stack.isEmpty())
             return 0.0
-        val pop = stack.pop().value.toDouble()
-        val result = String.format("%.6f", pop)
+        val pop = stack.pop()
+        val db = if (pop is FunctionType.VariableFunction) {
+            pop.token.value.toDouble()
+        } else pop.value.toDouble()
+        val result = String.format("%.6f", db)
         return result.toDouble()
     }
 }

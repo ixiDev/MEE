@@ -7,6 +7,10 @@ class FileSource(pathname: String) : File(pathname), ISource {
     override fun getLines(): List<String> {
         return this.readLines().removeComments()
     }
+
+    override fun getText(): String {
+        return getLines().joinToString("\n")
+    }
 }
 
 

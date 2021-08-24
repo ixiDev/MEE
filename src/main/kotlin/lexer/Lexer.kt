@@ -14,7 +14,7 @@ import tokens.*
 
 private val TOKENS_REGEX: String
     get() = """
-        ([()])|(\d+(\.\d+)?)|([+*×÷/-])|log|ln|exp|cos|sin|sqrt|(\^)
+        ([()])|(\d+(\.\d+)?)|([+*×÷/-])|log|ln|exp|cos|sin|sqrt|(\^)|([=;])|([a-z,A-Z])
     """.trimIndent()
 
 class Lexer(private val source: ISource) {
@@ -23,10 +23,10 @@ class Lexer(private val source: ISource) {
         if (source.getLines().isEmpty())
             return emptyList()
 
-        val lines = source.getLines()
+        val lines = source.getText()
         val regex = TOKENS_REGEX.toRegex()
 
-        val nonAllowedTokens = regex.split(lines.first())
+        val nonAllowedTokens = regex.split(lines)
             .filter { it.isNotBlank() && it != "\n" && it != " " }
 
         if (nonAllowedTokens.isNotEmpty()) {
@@ -35,7 +35,7 @@ class Lexer(private val source: ISource) {
 
         val tokens = ArrayList<Token>()
 
-        regex.findAll(lines.first())
+        regex.findAll(lines)
             .filter { it.value.isNotBlank() }
             .forEach {
                 val strToken = it.value
@@ -44,6 +44,9 @@ class Lexer(private val source: ISource) {
                     strToken.isOperation() -> strToken.toOperation()
                     strToken.isBracket() -> strToken.toBracket()
                     strToken.isMathFun() -> strToken.toMathFun()
+                    strToken.isVariableName() -> strToken.toVariableToken()
+                    strToken == "=" -> AssignmentToken
+                    strToken == ";" -> SemicolonToken
                     else -> {
                         lexerError("keyword '$strToken' not allowed")
                     }

@@ -9,6 +9,6 @@ import java.util.*
  ** Email :  abdelmajid.idali@gmail.com
  **/
 interface IRule {
-    fun onParse(token: Token, queue: Queue<Token>, stack: Stack<Token>)
-    fun onEvaluate(token: Token, queue: Queue<Token>, stack: Stack<Token>)
+    fun onParse(tokens: Queue<Token>, queue: Queue<Token>, stack: Stack<Token>)
+    fun onEvaluate(tokens: Queue<Token>, queue: Queue<Token>, stack: Stack<Token>)
 }

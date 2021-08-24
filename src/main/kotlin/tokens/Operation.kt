@@ -22,10 +22,10 @@ sealed class Operation(value: String, priority: Int) : Token(value, priority) {
         }
     }
 
-    override fun onParse(token: Token, queue: Queue<Token>, stack: Stack<Token>) {
+    override fun onParse(tokens: Queue<Token>, queue: Queue<Token>, stack: Stack<Token>) {
 
         if (stack.isEmpty()) {
-            stack.push(token)
+            stack.push(this)
         } else {
             val top = stack.peek()
 //            if (top !is Operation) {
@@ -33,10 +33,10 @@ sealed class Operation(value: String, priority: Int) : Token(value, priority) {
 //                return
 //            }
             if (top.priority < this.priority) {
-                stack.push(token)
+                stack.push(this)
             } else if (top.priority == this.priority) {
                 queue.add(stack.pop())
-                stack.push(token)
+                stack.push(this)
             } else {
                 while (
                     stack.isNotEmpty() &&
@@ -44,13 +44,13 @@ sealed class Operation(value: String, priority: Int) : Token(value, priority) {
                 ) {
                     queue.add(stack.pop())
                 }
-                stack.push(token)
+                stack.push(this)
             }
         }
 
     }
 
-    override fun onEvaluate(token: Token, queue: Queue<Token>, stack: Stack<Token>) {
+    override fun onEvaluate(tokens: Queue<Token>, queue: Queue<Token>, stack: Stack<Token>) {
         TODO("Not yet implemented")
     }
 }

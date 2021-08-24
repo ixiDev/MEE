@@ -15,17 +15,12 @@ class Parser(private val lexer: Lexer) {
      * Convert infix tokens to postfix tokens
      */
     fun parseTokens(): Queue<Token> {
-        val tokens = lexer.readTokens()
+        val tokens: Queue<Token> = LinkedList(lexer.readTokens())
         val stack = Stack<Token>()
         val queue: Queue<Token> = LinkedList()
-        for (token in tokens) {
-            try {
-                token.onParse(
-                    token, queue, stack
-                )
-            } catch (e: Exception) {
-                parserError(e.message ?: "")
-            }
+        while (tokens.isNotEmpty()) {
+            val token = tokens.poll()
+            token.onParse(tokens, queue, stack)
         }
         while (stack.isNotEmpty()) {
             queue.add(stack.pop())

@@ -1,6 +1,5 @@
 package tokens
 
-import java.lang.Math.pow
 import java.util.*
 import kotlin.math.*
 
@@ -10,13 +9,13 @@ import kotlin.math.*
  ** Email :  abdelmajid.idali@gmail.com
  **/
 
-sealed class FunctionType(name: String) : Token(value = name, priority = 6) {
+sealed class FunctionType(name: String, priority: Int = 6) : Token(value = name, priority) {
 
-    override fun onParse(token: Token, queue: Queue<Token>, stack: Stack<Token>) {
-        stack.push(token)
+    override fun onParse(tokens: Queue<Token>, queue: Queue<Token>, stack: Stack<Token>) {
+        stack.push(this)
     }
 
-    override fun onEvaluate(token: Token, queue: Queue<Token>, stack: Stack<Token>) {
+    override fun onEvaluate(tokens: Queue<Token>, queue: Queue<Token>, stack: Stack<Token>) {
         TODO("Not yet implemented")
     }
 
@@ -86,6 +85,54 @@ sealed class FunctionType(name: String) : Token(value = name, priority = 6) {
             )
         }
     }
+
+
+    data class VariableReference(val ref: String) : Token(ref) {
+        override fun onParse(tokens: Queue<Token>, queue: Queue<Token>, stack: Stack<Token>) {
+        }
+
+        override fun onEvaluate(tokens: Queue<Token>, queue: Queue<Token>, stack: Stack<Token>) {
+        }
+    }
+
+    data class VariableFunction(
+        val name: String,
+        var token: NumberType.FloatType = NumberType.FloatType("0.0")
+    ) : FunctionType(name, priority = 0) {
+        override fun onParse(tokens: Queue<Token>, queue: Queue<Token>, stack: Stack<Token>) {
+            if (!stack.isVariableDefined(this)) {
+                if (tokens.peek() != AssignmentToken)
+                    error("assignment '=' messing for variable '$name' ")
+                tokens.poll() // remove assignment
+                stack.add(this)
+                while (tokens.isNotEmpty() && (tokens.peek() != SemicolonToken)) {
+                    if (tokens.peek() is VariableFunction) {
+                        val poll = tokens.poll() as VariableFunction
+                        if (!queue.isVariableDefined(poll)) {
+                            error("Variable undefined '${poll.name}'")
+                        }
+                        queue.add(VariableReference(poll.name))
+                    } else
+                        tokens.poll().onParse(tokens, queue, stack)
+                }
+                if (tokens.isEmpty() || tokens.peek() != SemicolonToken) {
+                    error("messing semiColon ';' at end of '$name' ")
+                }
+                tokens.poll() // remove semicolon
+                while (stack.isNotEmpty() && stack.peek()!=this){
+                    queue.add(stack.pop())
+                }
+                queue.add(stack.pop())
+            } else {
+                // do nothing
+            }
+        }
+
+        override fun calculateFunction(stack: Stack<Token>) {
+            token= NumberType.FloatType(stack.pop().value)
+            stack.push(this)
+        }
+    }
 }
 
 fun String.isMathFun(): Boolean {
@@ -107,3 +154,16 @@ fun String.toMathFun(): FunctionType {
     }
 }
 
+fun Collection<Token>.isVariableDefined(variableToken: Token): Boolean {
+    return this.isNotEmpty() && this.find {
+        it.value == variableToken.value
+    } != null
+}
+
+fun String.isVariableName(): Boolean {
+    return this.matches("([a-z,A-Z])".toRegex())
+}
+
+fun String.toVariableToken(): Token {
+    return FunctionType.VariableFunction(this)
+}
