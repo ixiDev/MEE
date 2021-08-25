@@ -1,21 +1,20 @@
-import eva.Evaluator
 import lexer.Lexer
 import parser.Parser
 import source.FileSource
 
-fun main(args: Array<String>) {
+fun main() {
 
-    val source = FileSource("examples/example2.mee")
+    val filePath="examples/example2.mee"
+    val source = FileSource(filePath)
     if (!source.exists())
-        error("file 'examples/example2.mee' nor exist")
+        error("file '$filePath' nor exist")
 
     val lexer = Lexer(source)
 
     val parser = Parser(lexer)
 
-    val evaluator = Evaluator(parser)
     println(
-       "Infix : "+ lexer.readTokens().joinToString("") {
+        "Infix : " + lexer.readTokens().joinToString("") {
             it.value
         }
     )
@@ -24,7 +23,8 @@ fun main(args: Array<String>) {
             it.value
         }
     )
-    println("Result = ${evaluator.evaluateResult()}")
+    val compiler = ClCompiler()
+    println("Result = ${compiler.compile(source)}")
 
 
 }

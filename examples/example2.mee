@@ -1,15 +1,10 @@
 a=5+4+ln(9*5)+7;
 b = 9*5;
 c = b - a;
-d = c-a+c;
-#a=5+4+ln(9*5)+7;
-# output
-# c = 36
-# two possible process
-# P1    :   c = 9*5-(5+4)
-# P2    :   a = 9
-#           b = 45
-#           c = 36
-#
-#
-#
+d = c-a;
+d = 5;
+a = 5+4;
+a = 6;
+b = a*2;
+a = 8*b;
+b=a;

@@ -1,4 +1,6 @@
+import eva.EvaResult
 import eva.Evaluator
+import eva.getLastResultValue
 import source.ISource
 
 /**
@@ -9,8 +11,12 @@ import source.ISource
 class ClCompiler {
 
 
-    fun compile(source:ISource):Double{
-        val evaluator=Evaluator(source)
+    fun compile(source: ISource): Double {
+        return fullResult(source).getLastResultValue()
+    }
+
+    fun fullResult(source: ISource): EvaResult {
+        val evaluator = Evaluator(source)
         return evaluator.evaluateResult()
     }
 }

@@ -119,7 +119,7 @@ sealed class FunctionType(name: String, priority: Int = 6) : Token(value = name,
                     error("messing semiColon ';' at end of '$name' ")
                 }
                 tokens.poll() // remove semicolon
-                while (stack.isNotEmpty() && stack.peek()!=this){
+                while (stack.isNotEmpty() && stack.peek() != this) {
                     queue.add(stack.pop())
                 }
                 queue.add(stack.pop())
@@ -129,7 +129,12 @@ sealed class FunctionType(name: String, priority: Int = 6) : Token(value = name,
         }
 
         override fun calculateFunction(stack: Stack<Token>) {
-            token= NumberType.FloatType(stack.pop().value)
+            if (stack.isVariableDefined(this)) {
+                stack.removeIf {
+                    it is VariableFunction && it.name == this.name
+                }
+            }
+            token = NumberType.FloatType(stack.pop().value)
             stack.push(this)
         }
     }

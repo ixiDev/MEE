@@ -20,7 +20,7 @@ class Evaluator(private val parser: Parser) {
         )
     )
 
-    fun evaluateResult(): Double {
+    fun evaluateResult(): EvaResult {
         val tokens = parser.parseTokens()
         val stack = Stack<Token>()
         while (tokens.isNotEmpty()) {
@@ -44,27 +44,16 @@ class Evaluator(private val parser: Parser) {
                     token.calculateFunction(stack)
                 }
                 is FunctionType.VariableReference -> {
-
                     val refVar = stack.find {
                         (it is FunctionType.VariableFunction) && it.name == token.ref
                     } as FunctionType.VariableFunction
-                    // do nothing
                     stack.push(refVar.token)
-                    println("$${token.ref}= ${refVar.token.value}")
                 }
                 else -> {
                     error("Unexpected token at ${token.value}")
                 }
             }
         }
-
-        if (stack.isEmpty())
-            return 0.0
-        val pop = stack.pop()
-        val db = if (pop is FunctionType.VariableFunction) {
-            pop.token.value.toDouble()
-        } else pop.value.toDouble()
-        val result = String.format("%.6f", db)
-        return result.toDouble()
+        return EvaResult(stack)
     }
 }
