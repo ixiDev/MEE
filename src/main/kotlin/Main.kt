@@ -23,8 +23,4 @@ fun main() {
             it.value
         }
     )
-    val compiler = ClCompiler()
-    println("Result = ${compiler.compile(source)}")
-
-
 }
