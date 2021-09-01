@@ -14,6 +14,7 @@ repositories {
 
 dependencies {
     implementation("junit:junit:4.13.1")
+    implementation(project(":lib"))
     testImplementation(kotlin("test"))
 }
 
