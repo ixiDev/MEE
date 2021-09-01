@@ -56,7 +56,7 @@ For more simples take a look to [tests](src/test/kotlin) or to [Sample programme
 | ✅ |**=**| Assignment variables  eg. a = 22; |
 | ✅ |**pi**| Math constant pi returns 3.14 |
 | ✅ |**log**| logarithmic function with base 10 eg. log 1000 returns 3 |
-| ✅ |**ln**| natural log function with base e eg. ln 2 returns .3010 |
+| ✅ |**ln**| natural log function with base e eg. ln 2 returns 0.693147 |
 | ✅ |**exp**|  exponential function |
 | ✅ |**^**| power operator eg. 2^3 returns 8 |
 | ✅ |**sqrt**| square root of a number eg. 4 returns 2 |

@@ -23,4 +23,7 @@ fun main() {
             it.value
         }
     )
+    val compiler = ClCompiler()
+    val result = compiler.compile(source)
+    println("result = $result")
 }
