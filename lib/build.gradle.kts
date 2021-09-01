@@ -14,3 +14,14 @@ repositories {
 dependencies {
     implementation(kotlin("stdlib"))
 }
+tasks {
+//    val sourcesJar by creating(Jar::class) {
+//        archiveClassifier.set("sources")
+//        from(sourceSets.getByName("main").java.srcDirs)
+//    }
+
+    artifacts {
+        archives(jar)
+        archives(javadoc)
+    }
+}
