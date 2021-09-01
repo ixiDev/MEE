@@ -7,7 +7,6 @@
 /**
  *Check whatever string is a math operations or not
  * operations : [+ * / -]
- * @param token : expression element
  * @return true if is operation
  */
 fun String.isOperation(): Boolean {
@@ -16,7 +15,6 @@ fun String.isOperation(): Boolean {
 
 /**
  * Check whatever string is a number or not
- * @param token : expression element
  * @return true if is number
  */
 fun String.isNumber(): Boolean {
