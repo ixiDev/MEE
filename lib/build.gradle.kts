@@ -1,8 +1,10 @@
 plugins {
     kotlin("jvm")
+    `maven-publish`
 }
 
-group = "com.ixidev.mee"
+
+group = "com.github.ixidev"
 version = "0.0.1"
 
 repositories {
