@@ -43,7 +43,7 @@ println("Result = ${compiler.compile(source)}")
 
 For more simples take a look to [tests](src/test/kotlin) or to [Sample programme](src/main/kotlin/Main.kt)
 
-## Supported symbols
+### Supported symbols
 
 |Supported|Symbol|Explanation|
 |:---:|:---:|:---:|
@@ -74,3 +74,27 @@ For more simples take a look to [tests](src/test/kotlin) or to [Sample programme
 | ⬜ |**asinh**| Inverse Hyperbolic Sine function |
 | ⬜ |**acosh**| Inverse Hyperbolic Cosine function |
 | ⬜ |**atanh**| Inverse Hyperbolic Tangent function |
+
+### How to use
+
+##### Step 1. Add the JitPack repository to your build file
+
+Add it in your root build.gradle at the end of repositories:
+
+```groovy
+allprojects {
+    repositories {
+        //...
+        maven { url 'https://jitpack.io' }
+    }
+}
+```
+
+##### Step 2. Add the dependency
+
+```groovy
+implementation 'com.github.ixiDev:MEE:$MEE_VERSION'
+```
+
+Replace ``$MEE_VERSION`` with last version 
+
